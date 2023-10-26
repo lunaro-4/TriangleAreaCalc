@@ -8,7 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class HelloController {
+public class AppController {
 
     private ObservableList<String> figures = FXCollections.observableArrayList("Triangle","Trapezium");
 
@@ -22,6 +22,9 @@ public class HelloController {
     private TextField cSideInp;
 
     @FXML
+    private TextField dSideInp;
+
+    @FXML
     private ChoiceBox<String> figChoice;
 
     @FXML
@@ -31,14 +34,6 @@ public class HelloController {
     private Label resultField;
 
 
-
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 
     @FXML
     protected void onCalcButtonClick(){
@@ -53,10 +48,15 @@ public class HelloController {
         try {
             Trapezium t = new Trapezium(Double.parseDouble(aSideInp.getText()),
                     Double.parseDouble(bSideInp.getText()),
-                    Double.parseDouble(cSideInp.getText()));
+                    Double.parseDouble(cSideInp.getText()),
+                    Double.parseDouble(dSideInp.getText()));
+            if (t.a<0||t.b<0||t.c<0)
+                throw new NonNaturalValue();
             resultField.setText(String.valueOf(t.area));
-        }catch (Exception e){
+        }catch (NumberFormatException | NullPointerException e){
             resultField.setText("Unrecognised values");
+        }catch (IncorrectFigException | NonNaturalValue e){
+            resultField.setText(e.getMessage());
         }
 
     }
@@ -65,16 +65,16 @@ public class HelloController {
     protected void initialize(){
     figChoice.setItems(figures);
     figChoice.setValue("Triangle");
-    figChoice.setOnAction(actionEvent -> setDisc());
+    figChoice.setOnAction(actionEvent -> setVisibility());
 
     }
     @FXML
-    protected void setDisc(){
-        cSideInp.setText("");
+    protected void setVisibility(){
+//        cSideInp.setText("");
         switch (figChoice.getValue()){
-            case "Triangle": cSideInp.setPromptText("c side length");
+            case "Triangle":    dSideInp.setVisible(false);
             break;
-            case "Trapezium":  cSideInp.setPromptText("trapezium height");
+            case "Trapezium":   dSideInp.setVisible(true);
             break;
         }
 
@@ -85,9 +85,13 @@ public class HelloController {
             Triangle t = new Triangle(Double.parseDouble(aSideInp.getText()),
                     Double.parseDouble(bSideInp.getText()),
                     Double.parseDouble(cSideInp.getText()));
+            if (t.a<0||t.b<0||t.c<0)
+                throw new NonNaturalValue();
             resultField.setText(String.valueOf(t.area));
-        }catch (Exception e){
+        }catch (NumberFormatException | NullPointerException e){
             resultField.setText("Unrecognised values");
+        } catch (NonNaturalValue | IncorrectFigException e) {
+            resultField.setText(e.getMessage());
         }
     }
 }

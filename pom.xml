@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                ipiap.tarining.triangleareacalc/ipiap.tarining.triangleareacalc.HelloApplication
+                                ipiap.tarining.triangleareacalc/ipiap.tarining.triangleareacalc.AreaCalcApp
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
