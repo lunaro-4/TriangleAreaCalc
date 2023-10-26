@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="238.0" minWidth="460.0" prefHeight="238.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipiap.tarining.triangleareacalc.HelloController">
+   <children>
+      <TextField fx:id="aSideInp" layoutX="35.0" layoutY="42.0" promptText="a side length" />
+      <TextField fx:id="bSideInp" layoutX="35.0" layoutY="83.0" promptText="b side length" />
+      <TextField fx:id="cSideInp" layoutX="35.0" layoutY="122.0" promptText="c side length" />
+      <Label layoutX="301.0" layoutY="91.0" text="Result:" />
+      <Label fx:id="resultField" layoutX="346.0" layoutY="83.0" prefHeight="33.0" prefWidth="100.0" text="0" />
+      <Button fx:id="calculate" layoutX="210.0" layoutY="83.0" mnemonicParsing="false" onAction="#onCalcButtonClick" text="Calculate" />
+      <ChoiceBox fx:id="figChoice" layoutX="364.0" layoutY="14.0" prefHeight="25.0" prefWidth="82.0" />
+   </children>
+</AnchorPane>
