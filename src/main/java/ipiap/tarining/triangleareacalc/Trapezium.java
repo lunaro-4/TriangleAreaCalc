@@ -3,7 +3,7 @@ package ipiap.tarining.triangleareacalc;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Trapezium {
+public class Trapezium extends Figure{
     double a,b, c, d;
     double perim,area;
     public Trapezium(double a, double b, double c,double d) throws IncorrectFigException {

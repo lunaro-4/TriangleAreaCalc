@@ -1,8 +1,13 @@
 package ipiap.tarining.triangleareacalc;
 
-public class Triangle {
+public class Triangle extends Figure{
     double a,b,c;
     double perim,area;
+
+    public double getArea() {
+        return area;
+    }
+
     public Triangle(double a, double b, double c) throws IncorrectFigException {
         if (a>b+c||b>a+c||c>a+b)
             throw new IncorrectFigException();

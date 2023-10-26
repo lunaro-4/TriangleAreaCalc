@@ -10,7 +10,9 @@ import javafx.scene.control.TextField;
 
 public class AppController {
 
-    private ObservableList<String> figures = FXCollections.observableArrayList("Triangle","Trapezium");
+    private ObservableList<String> figures = FXCollections.observableArrayList("Rectangle","Triangle","Trapezia");
+
+    private FigEnum selectedFigure = FigEnum.Triangle;
 
     @FXML
     private TextField aSideInp;
@@ -36,62 +38,100 @@ public class AppController {
 
 
     @FXML
-    protected void onCalcButtonClick(){
-        if (figChoice.getValue().equals("Triangle"))
-            calcTriangle();
-        else if (figChoice.getValue().equals("Trapezium"))
-            calcTrapezium();
+    protected void onCalcButtonClick() {
+        calcFigure();
     }
 
-    @FXML
-    private void calcTrapezium() {
-        try {
-            Trapezium t = new Trapezium(Double.parseDouble(aSideInp.getText()),
-                    Double.parseDouble(bSideInp.getText()),
-                    Double.parseDouble(cSideInp.getText()),
-                    Double.parseDouble(dSideInp.getText()));
-            if (t.a<0||t.b<0||t.c<0)
-                throw new NonNaturalValue();
-            resultField.setText(String.valueOf(t.area));
-        }catch (NumberFormatException | NullPointerException e){
-            resultField.setText("Unrecognised values");
-        }catch (IncorrectFigException | NonNaturalValue e){
-            resultField.setText(e.getMessage());
-        }
 
-    }
 
     @FXML
     protected void initialize(){
     figChoice.setItems(figures);
     figChoice.setValue("Triangle");
-    figChoice.setOnAction(actionEvent -> setVisibility());
+    figChoice.setOnAction(actionEvent -> figChoiceOnClicAction());
 
     }
     @FXML
     protected void setVisibility(){
 //        cSideInp.setText("");
-        switch (figChoice.getValue()){
-            case "Triangle":    dSideInp.setVisible(false);
-            break;
-            case "Trapezium":   dSideInp.setVisible(true);
-            break;
+//        selectedFigure = f
+        switch (selectedFigure){
+            case Triangle:
+                aSideInp.setVisible(true);
+                bSideInp.setVisible(true);
+                cSideInp.setVisible(true);
+                dSideInp.setVisible(false);
+                break;
+            case Rectangle:
+                aSideInp.setVisible(true);
+                bSideInp.setVisible(true);
+                cSideInp.setVisible(false);
+                dSideInp.setVisible(false);
+                break;
+
+            case Trapezia:
+                aSideInp.setVisible(true);
+                bSideInp.setVisible(true);
+                cSideInp.setVisible(true);
+                dSideInp.setVisible(true);
+                break;
         }
+
 
         }
     @FXML
-    protected void calcTriangle(){
+    protected void figChoiceOnClicAction(){
+        switch (figChoice.getValue()){
+            case "Triangle":
+                selectedFigure = FigEnum.Triangle;
+                break;
+            case "Rectangle":
+                selectedFigure = FigEnum.Rectangle;
+                break;
+            case "Trapezia":
+                selectedFigure = FigEnum.Trapezia;
+                break;
+        }
+        setVisibility();
+    }
+
+    @FXML
+    protected void calcFigure(){
+        double area =0;
         try {
-            Triangle t = new Triangle(Double.parseDouble(aSideInp.getText()),
-                    Double.parseDouble(bSideInp.getText()),
-                    Double.parseDouble(cSideInp.getText()));
-            if (t.a<0||t.b<0||t.c<0)
-                throw new NonNaturalValue();
-            resultField.setText(String.valueOf(t.area));
+            switch (selectedFigure) {
+                case Triangle:
+                    Triangle ti = new Triangle(Double.parseDouble(aSideInp.getText()),
+                            Double.parseDouble(bSideInp.getText()),
+                            Double.parseDouble(cSideInp.getText()));
+                    if (ti.a < 0 || ti.b < 0 || ti.c < 0)
+                        throw new NonNaturalValue();
+                    area=ti.area;
+                    break;
+                case Rectangle:
+                    Rectangle r = new Rectangle(Double.parseDouble(aSideInp.getText()),
+                            Double.parseDouble(bSideInp.getText()));
+                    if (r.a<0||r.b<0)
+                        throw new NonNaturalValue();
+                    area=r.area;
+                    break;
+                case Trapezia:
+                    Trapezium ta = new Trapezium(Double.parseDouble(aSideInp.getText()),
+                            Double.parseDouble(bSideInp.getText()),
+                            Double.parseDouble(cSideInp.getText()),
+                            Double.parseDouble(dSideInp.getText()));
+                    if (ta.a<0||ta.b<0||ta.c<0||ta.d<0)
+                        throw new NonNaturalValue();
+                    area=ta.area;
+                    break;
+            }
+            resultField.setText(String.valueOf(area));
         }catch (NumberFormatException | NullPointerException e){
             resultField.setText("Unrecognised values");
         } catch (NonNaturalValue | IncorrectFigException e) {
             resultField.setText(e.getMessage());
         }
+
     }
+
 }
